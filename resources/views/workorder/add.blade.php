@@ -60,18 +60,7 @@
                     <div class="form-group">
 
                         <div class="row">
-                            <div class="col-md-2">
-                                <label for="city">
-                                    地區
-                                </label>
-                                <select class="form-control" id="city" name="city">
-                                    <option value="1">北區</option>
-                                    <option value="2">中區</option>
-                                    <option value="3">南區</option>
-                                </select>
-
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <label for="address">
                                     地址
                                 </label>

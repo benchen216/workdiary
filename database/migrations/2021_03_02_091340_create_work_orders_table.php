@@ -20,7 +20,7 @@ class CreateWorkOrdersTable extends Migration
             $table->string("w_name");
             $table->string("name");
             $table->string("phone");
-            $table->string("city");
+            //$table->string("city");
             $table->string("address");
             $table->boolean("is_finish")->default(0);
             $table->dateTime("start_time");
