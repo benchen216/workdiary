@@ -81,14 +81,21 @@
                             </div>
                         </div>
                     </div>
-                    @for ($i = 0; $i <= 30; $i++)
-                        @if ($work_detail["col".$i])
-                        <label for="col{{ $i }}">
-                            {{$work_detail["col".$i]}}
-                        </label>
-                        <input type="text" class="form-control" id="col{{ $i }}" name="col{{ $i }}" value="">
-                        @endif
-                    @endfor
+                    <script type="text/javascript">
+                        function add_text()
+                        {
+                            text = document.createElement('input')
+                            text.setAttribute('name', 'text[]')
+                            br   = document.createElement('br')
+                            document.getElementById('text_zone').appendChild(br)
+                            document.getElementById('text_zone').appendChild(text)
+                        }
+                    </script>
+                    <input type="button" value="增加text" onclick="add_text()" />
+                    <br />
+                    <span id="text_zone">
+<input type="text" name="text[]" id="text_0" />
+</span>
 
                     <button type="submit" class="btn btn-primary">
                         提交

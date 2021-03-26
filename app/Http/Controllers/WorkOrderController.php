@@ -6,6 +6,7 @@ use App\Models\WorkOrder;
 use App\Models\WorkOrdersDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
+use function MongoDB\BSON\toJSON;
 
 class WorkOrderController extends Controller
 {
@@ -23,7 +24,7 @@ class WorkOrderController extends Controller
         $workorders->w_name = request("w_name");
         $workorders->name = request("name");
         $workorders->phone = request("phone");
-        $workorders->city = request("city");
+        $workorders->city = 1;//request("city");
         $workorders->address = request("address");
         $workorders->start_time = request("starttime");
         //$workorders->extra_data = "{}";
@@ -40,9 +41,11 @@ class WorkOrderController extends Controller
         $workorderdtails->work_id = $workorders->id;
         $workorderdtails->fill($arr);
         $workorderdtails->save();
-
-
-        return redirect("/workorders");
+        $xxxx = request("text");
+        echo implode(" ",$xxxx);
+        //error_log(strval($xxxx));
+        //return strval($xxxx);
+        //return redirect("/workorders");
     }
 
     public function show($id){
@@ -93,8 +96,8 @@ class WorkOrderController extends Controller
     }
     public function add(){
         $my_user = User::all();
-        $my_col = WorkOrdersDetail::findOrFail(1);
-        return view("workorder.add",['work_detail' => $my_col])->with("users",$my_user);
+        //$my_col = WorkOrdersDetail::findOrFail(1);
+        return view("workorder.add")->with("users",$my_user);
     }
 
 }

@@ -63,17 +63,6 @@
                     <div class="form-group">
 
                         <div class="row">
-                            <div class="col-md-2">
-                                <label for="city">
-                                    地區
-                                </label>
-                                <select class="form-control" id="city" name="city">
-                                    <option value="1" @if($workorders["city"]=="1") selected @endif>北區</option>
-                                    <option value="2"@if($workorders["city"]=="2") selected @endif>中區</option>
-                                    <option value="3"@if($workorders["city"]=="3") selected @endif>南區</option>
-                                </select>
-
-                            </div>
                             <div class="col-md-6">
                                 <label for="address">
                                     地址
@@ -95,14 +84,6 @@
                             </div>
                         </div>
                     </div>
-                    @for ($i = 0; $i <= 30; $i++)
-                        @if ($work_detail["col".$i])
-                            <label for="col{{ $i }}">
-                                {{$work_detail["col".$i]}}
-                            </label>
-                            <input type="text" class="form-control" id="col{{ $i }}" name="col{{ $i }}" value="{{$work_detail2["col".$i]}}">
-                        @endif
-                    @endfor
 
                     <button type="submit" class="btn btn-primary">
                         提交
