@@ -7,13 +7,6 @@
             </div>
             <div class="col-md-10">
                 <h5>建立工作表單</h5>
-                <form role="form" action="{{route("workorder.store")}}" method="POST">
-                    @csrf
-                    @guest()
-
-                    @else
-                        <input type="hidden" name="last_mod_id" id="last_mod_id" value="{{ Auth::user()->id }}">
-                    @endguest
                     <table class="table">
                         <thead>
                         <tr>
@@ -29,32 +22,56 @@
                             <th>
                                 狀態
                             </th>
+                            <th>
+                                操作
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($workers as $worker)
-                            <tr>
-                                <td>{{$worker["id"]}}</td>
-                                <td>{{$worker["w_name"]}}</td>
-                                <td>{{$worker["name"]}}</td>
-                                <td>{{$worker["w_id"]}}</td>
-                                @if ($worker["is_finish"])
-                                    <td><div class="text-success">完成</div></td>
-                                @else
-                                    <td><div class="text-danger">未完成</div></td>
-                                @endif
-                                <td>
-                                    <form action="{{route('workorder.destroy', $workorder->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-link btn-sm">刪除</button>
-                                    </form>
-                                </td>
-                                <td><a href="{{route("workorder.show",$workorder->id)}}">編輯</a></td>
-                            </tr>
-                        @endforeach
                         </tbody>
                     </table>
+                @foreach($workers as $worker)
+                        <form action="{{route('worker.update', $worker->id)}}" method="POST">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <p>{{$worker["name"]}}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>{{$worker["email"]}}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="user_id"></label>
+                                    <select id="user_type" name="user_type">
+                                        <option value="admin" @if($worker["user_type"]=="admin") selected @endif>管理員</option>
+                                        <option value="user" @if($worker["user_type"]=="user") selected @endif>使用者</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="user_type"></label>
+                                    <select id="user_type" name="user_type">
+                                        <option value="1" class="text-success" @if($worker["is_job"]) selected @endif>在職</option>
+                                        <option value="0" class="text-danger" @if(!$worker["is_job"]) selected @endif>離職</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    @csrf
+                                    @method("PUT")
+
+                                    <input type="submit" value="刪除">
+                                    <button  class="btn btn-link btn-sm">儲存</button>
+                                </div>
+                            </div>
+                        </form>
+
+                @endforeach
+
+                <form role="form" action="{{route("worker.add")}}" method="POST">
+                    @csrf
+                    @guest()
+
+                    @else
+                        <input type="hidden" name="last_mod_id" id="last_mod_id" value="{{ Auth::user()->id }}">
+                    @endguest
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
@@ -78,7 +95,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">
-                        提交
+                        新增
                     </button>
                 </form>
             </div>

@@ -28,8 +28,10 @@ Route::get('/workorders/{id}', 'WorkOrderController@edit')->name('workorder.edit
 Route::delete('/workorders/{id}','WorkOrderController@destroy')->name('workorder.destroy');
 Route::post('/workorders',"WorkOrderController@store")->name("workorder.store");
 Route::get('/workorders',"WorkOrderController@index")->name("workorder.index");
-Route::get('/workers/add',"WorkerController@add")->name("worker.add");
+
+Route::post('/workers',"WorkerController@add")->name("worker.add");
 Route::get('/workers',"WorkerController@index")->name("worker.index");
+Route::put('/workers/{id}',"WorkerController@update")->name("worker.update");
 
 Route::get('/xx',"HomeController@index");
 

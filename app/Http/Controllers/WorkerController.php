@@ -9,7 +9,8 @@ class WorkerController extends Controller
 {
     public function index()
     {
-        return view("worker.index");
+        $workers = User::all();
+        return view("worker.index")->with("workers",$workers);
     }
 
     public function add()
@@ -17,9 +18,9 @@ class WorkerController extends Controller
         return view("worker.add");
     }
 
-    public function save()
-    {
-        return redirect("worker.index");
+    public function update($id)
+    {error_log($id.toString());
+        return redirect(route("worker.index"));
     }
 
     public function worker_mod()

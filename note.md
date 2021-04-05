@@ -126,3 +126,14 @@ public function boot()
 Schema::defaultStringLength(191);
 }
 ```
+
+## html tag 注意
+
+不能將form 放在 table 裡 (會產生error)
+
+```
+<table>
+    <form>
+    </form>
+</table>
+```

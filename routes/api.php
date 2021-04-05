@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::post('/cleareverything', "CallArtisanController@clear");
 Route::post('/migrate', "CallArtisanController@migrate");
+//Route::put('/workers/{id}',"WorkerController@update")->name("worker.update");
