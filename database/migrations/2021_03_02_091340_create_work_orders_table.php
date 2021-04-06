@@ -15,11 +15,11 @@ class CreateWorkOrdersTable extends Migration
     {
         Schema::create('work_orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("w_id");
-            $table->foreign('w_id')->references('id')->on("users");
+            //$table->unsignedBigInteger("w_id");
+           // $table->foreign('w_id')->references('id')->on("users");
             $table->string("w_name");
-            $table->string("name");
-            $table->string("phone");
+            //$table->string("name");
+           // $table->string("phone");
             //$table->string("city");
             $table->string("address");
             $table->boolean("is_finish")->default(0);

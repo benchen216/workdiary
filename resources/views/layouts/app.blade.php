@@ -59,8 +59,14 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('workorder.col_def') }}">
-                                        設定頁面
+                                    <a class="dropdown-item" href="{{ route('worker.index') }}">
+                                        成員管理
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('workitem.class_show') }}">
+                                        工項分類
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('workitem.index') }}">
+                                        工項細節
                                     </a>
                                     <a class="dropdown-item" href="{{ route('workorder.index') }}">
                                         查看工單

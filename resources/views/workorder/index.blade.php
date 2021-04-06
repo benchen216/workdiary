@@ -15,9 +15,6 @@
                             案名
                         </th>
                         <th>
-                            客戶名
-                        </th>
-                        <th>
                             負責師傅
                         </th>
                         <th>
@@ -37,7 +34,6 @@
                         <tr>
                             <td>{{$workorder["id"]}}</td>
                             <td>{{$workorder["w_name"]}}</td>
-                            <td>{{$workorder["name"]}}</td>
                             <td>{{$workorder["w_id"]}}</td>
                             @if ($workorder["is_finish"])
                                 <td><div class="text-success">完成</div></td>

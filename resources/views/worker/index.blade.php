@@ -47,8 +47,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <label for="user_type"></label>
-                                    <select id="user_type" name="user_type">
+                                    <label for="is_job"></label>
+                                    <select id="is_job" name="is_job">
                                         <option value="1" class="text-success" @if($worker["is_job"]) selected @endif>在職</option>
                                         <option value="0" class="text-danger" @if(!$worker["is_job"]) selected @endif>離職</option>
                                     </select>
@@ -56,8 +56,6 @@
                                 <div class="col-md-3">
                                     @csrf
                                     @method("PUT")
-
-                                    <input type="submit" value="刪除">
                                     <button  class="btn btn-link btn-sm">儲存</button>
                                 </div>
                             </div>

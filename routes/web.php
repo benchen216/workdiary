@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', "HomeController@index");
 
 Route::get("/customer","CustomerController@index")->name("customer.index");
 Route::get("/work-col-def","WorkOrderController@col_def")->name("workorder.col_def");
@@ -33,9 +31,16 @@ Route::post('/workers',"WorkerController@add")->name("worker.add");
 Route::get('/workers',"WorkerController@index")->name("worker.index");
 Route::put('/workers/{id}',"WorkerController@update")->name("worker.update");
 
-Route::get('/xx',"HomeController@index");
+Route::get('/workitem',"WorkItemController@index")->name("workitem.index");
+Route::post('/workitem',"WorkItemController@store")->name("workitem.store");
+Route::get('/workitem_class',"WorkItemController@class_show")->name("workitem.class_show");
+Route::post('/workitem_class',"WorkItemController@class_store")->name("workitem.class_store");
 
-Auth::routes();
+//Route::get('/xx',"HomeController@index");
+
+Auth::routes([
+    'register' => false
+]);
 Route::get('change-password', 'ChangePasswordController@index')->name('change.password');
 Route::post('change-password', 'ChangePasswordController@store')->name('change.password');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

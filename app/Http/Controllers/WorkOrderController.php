@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WorkItem;
+use App\Models\WorkItemsClass;
 use App\Models\WorkOrder;
+use App\Models\WorkOrderItem;
 use App\Models\WorkOrdersDetail;
 use App\Models\User;
+use App\Models\WorkOrderWorker;
 use Illuminate\Http\Request;
 use function MongoDB\BSON\toJSON;
 
@@ -17,22 +21,46 @@ class WorkOrderController extends Controller
     }
 
     public function store(){
-
+        //$xxxx = request("myworker");
+        //$xxxx = request("myitemclass");
+        //$xxxx = request("myitem");
+        //$xxxx = request("itemnum");
+        //echo implode(" ",$xxxx);
         $workorders = new WorkOrder;
-        $workorders->w_id = request("worker_id");//request();
+        //$workorders->w_id = request("worker_id");//request();
         $workorders->last_mod_id = request("last_mod_id");
         $workorders->w_name = request("w_name");
-        $workorders->name = request("name");
-        $workorders->phone = request("phone");
-        $workorders->city = 1;//request("city");
+        //$workorders->name = request("name");
+        //$workorders->phone = request("phone");
+        //$workorders->city = 1;//request("city");
         $workorders->address = request("address");
         $workorders->start_time = request("starttime");
         //$workorders->extra_data = "{}";
         $workorders->is_finish = 0;
         //$workorders->finish_time = date("2020/1/2 12:10:0");
         $workorders->save();
+        $work_workers = request("myworker");
+        foreach($work_workers as $worker){
+            $work_worker = new WorkOrderWorker;
+            $work_worker->w_id = $workorders->id;
+            $work_worker->worker_id = $worker;
+            $work_worker->save();
+        }
+        $myitemclasses = request("myitemclass");
+        $myitems = request("myitem");
+        $munums = request("itemnum");
+        for($x = 0 ; $x < count($myitemclasses); $x++){
+            $work_item = new WorkOrderItem;
+            $work_item->w_id = $workorders->id;
+            $work_item->wi_class = $myitemclasses[$x];
+            $work_item->wi = $myitems[$x];
+            $work_item->num_before = $munums[$x];
+            $work_item->save();
+        }
+
+        //$workitem = ;
         //$workorderdtails = new WorkOrdersDetail;
-        $arr = [];
+        /*$arr = [];
         for ($x = 0; $x <= 30; $x++) {
             $arr["col".strval($x)]=request("col".strval($x));
         }
@@ -42,10 +70,10 @@ class WorkOrderController extends Controller
         $workorderdtails->fill($arr);
         $workorderdtails->save();
         $xxxx = request("text");
-        echo implode(" ",$xxxx);
+        echo implode(" ",$xxxx);*/
         //error_log(strval($xxxx));
         //return strval($xxxx);
-        //return redirect("/workorders");
+        return redirect("/workorders");
     }
 
     public function show($id){
@@ -96,8 +124,10 @@ class WorkOrderController extends Controller
     }
     public function add(){
         $my_user = User::all();
+        $workitem_classes = WorkItemsClass::all();
+        $workitems = WorkItem::all();
         //$my_col = WorkOrdersDetail::findOrFail(1);
-        return view("workorder.add")->with("users",$my_user);
+        return view("workorder.add")->with("users",$my_user)->with("workitems",$workitems)->with("workitem_classes",$workitem_classes);
     }
 
 }
