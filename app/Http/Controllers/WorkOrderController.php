@@ -10,7 +10,6 @@ use App\Models\WorkOrdersDetail;
 use App\Models\User;
 use App\Models\WorkOrderWorker;
 use Illuminate\Http\Request;
-use function MongoDB\BSON\toJSON;
 
 class WorkOrderController extends Controller
 {
@@ -61,10 +60,6 @@ class WorkOrderController extends Controller
         //$workitem = ;
         //$workorderdtails = new WorkOrdersDetail;
         /*$arr = [];
-        for ($x = 0; $x <= 30; $x++) {
-            $arr["col".strval($x)]=request("col".strval($x));
-        }
-
         $workorderdtails = new WorkOrdersDetail();
         $workorderdtails->work_id = $workorders->id;
         $workorderdtails->fill($arr);
@@ -80,10 +75,16 @@ class WorkOrderController extends Controller
         //$workorders = WorkOrder::where("name","=","ben")->get()[0];
         $workorders = WorkOrder::findOrFail($id);
         //$workorders = WorkOrder::all()[0];
-        $my_col = WorkOrdersDetail::findOrFail(1);
-        $my_col2 = WorkOrdersDetail::where("work_id","=",$id)->first();
+        $workitemclassnames = WorkItemsClass::all();
+        $workitemnames = WorkItem::all();
+        $workitems = WorkOrderItem::where("w_id","=",$id)->get();
+        $workworkers = WorkOrderWorker::where("w_id","=",$id)->get();
+        //error_log(strval($workworkers));
         $my_user = User::all();
-        return view("workorder.show")->with('workorders', $workorders)->with('work_detail',$my_col)->with('work_detail2',$my_col2)->with("edit",false)->with("users",$my_user);
+        return view("workorder.show")->with("workorders",$workorders)->with("users",$my_user)->with("workitems_o",$workitems)->with("workworkers_o",$workworkers)->with("workitems",$workitemnames)->with("workitem_classes",$workitemclassnames);
+    }
+    public function update($id){
+
     }
     public function edit($id){
         //$workorders = WorkOrder::where("name","=","ben")->get()[0];
@@ -97,12 +98,23 @@ class WorkOrderController extends Controller
 
     public function destroy($id){
         $workorders = WorkOrder::findOrFail($id);
+        $workitems = WorkOrderItem::where("w_id","=",$id)->get();
+        $workworkers = WorkOrderWorker::where("w_id","=",$id)->get();
+        foreach($workitems as $x){
+            $x->delete();
+        }
+        foreach($workworkers as $x){
+            $x->delete();
+        }
+        $workorders->delete();
+        //$workitems->delete();
+        //$workworkers->delete();
         //WorkOrder::where("id",$id)->update(["is_finish"=>0]);
 
         //$workorders->is_finish = 1;
         //$workorders->save();
 
-        $workorders->delete();
+
         return redirect('/workorders');
     }
     public function col_def_save(){

@@ -24,6 +24,7 @@ Route::get('/workorders/add',"WorkOrderController@add")->name("workorder.add");
 Route::get('/workorders/show/{id}', 'WorkOrderController@show')->name('workorder.show');
 Route::get('/workorders/{id}', 'WorkOrderController@edit')->name('workorder.edit');
 Route::delete('/workorders/{id}','WorkOrderController@destroy')->name('workorder.destroy');
+Route::put('/workorders/{id}','WorkOrderController@update')->name('workorder.update');
 Route::post('/workorders',"WorkOrderController@store")->name("workorder.store");
 Route::get('/workorders',"WorkOrderController@index")->name("workorder.index");
 

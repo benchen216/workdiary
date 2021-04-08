@@ -15,7 +15,7 @@
                             案名
                         </th>
                         <th>
-                            負責師傅
+                            施工日期
                         </th>
                         <th>
                             狀態
@@ -34,7 +34,7 @@
                         <tr>
                             <td>{{$workorder["id"]}}</td>
                             <td>{{$workorder["w_name"]}}</td>
-                            <td>{{$workorder["w_id"]}}</td>
+                            <td>{{$workorder["start_time"]}}</td>
                             @if ($workorder["is_finish"])
                                 <td><div class="text-success">完成</div></td>
                             @else
