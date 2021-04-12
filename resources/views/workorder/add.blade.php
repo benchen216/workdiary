@@ -77,11 +77,17 @@
                                         var mywork_item = elmnt.cloneNode(true);
                                         //mywork_item.setAttribute();
                                         br   = document.createElement('br');
-                                        var dddd = @json($workitems);
+                                        //var dddd = @json($workitems);
                                         //console.log($("body").html());
                                         //document.getElementById('work_item_zone').appendChild(br)
                                         document.getElementById('work_item_zone').appendChild(mywork_item);
 
+                                    }
+                                    function fn_subcl(el){
+                                        console.log($(el).val());
+                                        var val = $(el).val();
+                                        $(el).parent().parent().find("#wi").find("option").removeClass('hideopt');
+                                        $(el).parent().parent().find("#wi").find("option").filter( ':not([data-category="' + val + '"])' ).addClass( 'hideopt');
                                     }
                                 </script>
                                 <div class="row">
@@ -104,7 +110,8 @@
                                 <span id="work_item_zone">
                                     <div class="row" id="mywkitem">
                                         <div class="col-md-4">
-                                            <select class="form-control" id="wi_class" name="myitemclass[]">
+                                            <select class="form-control" id="wi_class" name="myitemclass[]" onchange="fn_subcl(this)">
+                                                <option disabled selected>---工項分類---</option>
                                                 @foreach($workitem_classes as $workitem_class)
                                                     <option value="{{$workitem_class["id"]}}">{{$workitem_class["name"]}}</option>
                                                 @endforeach
@@ -112,10 +119,11 @@
                                         </div>
                                         <div class="col-md-4">
                                            <select class="form-control" id="wi" name="myitem[]">
+                                               <option disabled selected>---工項細項---</option>
                                                 @foreach($workitems as $workitem)
-                                                   <option value="{{$workitem["id"]}}">{{$workitem["name"]}}</option>
+                                                   <option data-category="{{$workitem["wi_class"]}}" value="{{$workitem["id"]}}">{{$workitem["name"]}}</option>
                                                @endforeach
-                                            </select>
+                                           </select>
                                         </div>
                                         <div class="col-md-4">
                                             <input type="text" name="itemnum[]">

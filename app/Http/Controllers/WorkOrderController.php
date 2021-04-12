@@ -84,7 +84,53 @@ class WorkOrderController extends Controller
         return view("workorder.show")->with("workorders",$workorders)->with("users",$my_user)->with("workitems_o",$workitems)->with("workworkers_o",$workworkers)->with("workitems",$workitemnames)->with("workitem_classes",$workitemclassnames);
     }
     public function update($id){
-
+        $workorders = WorkOrder::findOrFail($id);
+        //$workitems = WorkOrderItem::where("w_id","=",$id)->get();
+        //$workworkers = WorkOrderWorker::where("w_id","=",$id)->get();
+        $workorders->last_mod_id = request("last_mod_id");
+        $workorders->w_name = request("w_name");
+        $workorders->address = request("address");
+        $workorders->start_time = request("starttime");
+        $workorders->is_finish = request("is_finish");
+        $workorders->save();
+        $work_workers_id = request("myworker_id");
+        $work_workers = request("myworker");
+        for($x = 0 ; $x < count($work_workers_id); $x++){
+            $worker = $work_workers[$x];
+            if($work_workers_id[$x]==0){
+                $work_worker = new WorkOrderWorker;
+                $work_worker->w_id = $workorders->id;
+                $work_worker->worker_id = $worker;
+                $work_worker->save();
+            }else{
+                $work_worker = WorkOrderWorker::findOrFail($work_workers_id[$x]);
+                $work_worker->w_id = $workorders->id;
+                $work_worker->worker_id = $worker;
+                $work_worker->save();
+            }
+        }
+        $myitems_id = request("myitem_id");
+        $myitemclasses = request("myitemclass");
+        $myitems = request("myitem");
+        $munums = request("itemnum");
+        for($x = 0 ; $x < count($myitems_id); $x++){
+            if ($myitems_id[$x]==0){
+                $work_item = new WorkOrderItem;
+                $work_item->w_id = $workorders->id;
+                $work_item->wi_class = $myitemclasses[$x];
+                $work_item->wi = $myitems[$x];
+                $work_item->num_before = $munums[$x];
+                $work_item->save();
+            }else{
+                $work_item = WorkOrderItem::findOrFail($myitems_id[$x]);
+                $work_item->w_id = $workorders->id;
+                $work_item->wi_class = $myitemclasses[$x];
+                $work_item->wi = $myitems[$x];
+                $work_item->num_before = $munums[$x];
+                $work_item->save();
+            }
+        }
+        return redirect("/workorders");
     }
     public function edit($id){
         //$workorders = WorkOrder::where("name","=","ben")->get()[0];
@@ -117,22 +163,8 @@ class WorkOrderController extends Controller
 
         return redirect('/workorders');
     }
-    public function col_def_save(){
-        #$my_col = new WorkOrdersDetail;
-        #$my_col->id = 1;
-        #$my_col->save();
-        $arr = [];
-        for ($x = 0; $x <= 30; $x++) {
-            $arr["col".strval($x)]=request("col".strval($x));
-        }
-        WorkOrdersDetail::where("id",1)->update($arr);
+    public function worker_page(){
 
-        return redirect('/work-col-def');
-    }
-    public function col_def(){
-
-        $my_col = WorkOrdersDetail::findOrFail(1);
-        return view('workorder.col_def',['work_detail' => $my_col]);
     }
     public function add(){
         $my_user = User::all();
