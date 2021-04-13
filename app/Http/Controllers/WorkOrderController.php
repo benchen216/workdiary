@@ -97,37 +97,45 @@ class WorkOrderController extends Controller
         $ison_work = request("ison_work");
         $work_workers_id = request("myworker_id");
         $work_workers = request("myworker");
+
         for($x = 0 ; $x < count($work_workers_id); $x++){
-            if($work_workers_id[$x]==0){
-                $work_worker = new WorkOrderWorker;
-            }else{
+            if($work_workers[$x]==0){
                 $work_worker = WorkOrderWorker::findOrFail($work_workers_id[$x]);
+                $work_worker->delete();
+            }else{
+                if($work_workers_id[$x]==0){
+                    $work_worker = new WorkOrderWorker;
+                } else {
+                    $work_worker = WorkOrderWorker::findOrFail($work_workers_id[$x]);
+                }
+                $work_worker->w_id = $workorders->id;
+                $work_worker->worker_id = $work_workers[$x];
+                $work_worker->on_work = $ison_work[$x];
+                $work_worker->save();
             }
-            $work_worker->w_id = $workorders->id;
-            $work_worker->worker_id = $work_workers[$x];
-            $work_worker->on_work = $ison_work[$x];
-            $work_worker->save();
+
         }
         $myitems_id = request("myitem_id");
         $myitemclasses = request("myitemclass");
         $myitems = request("myitem");
         $munums = request("itemnum");
         for($x = 0 ; $x < count($myitems_id); $x++){
-            if ($myitems_id[$x]==0){
-                $work_item = new WorkOrderItem;
-                $work_item->w_id = $workorders->id;
-                $work_item->wi_class = $myitemclasses[$x];
-                $work_item->wi = $myitems[$x];
-                $work_item->num_before = $munums[$x];
-                $work_item->save();
-            }else{
+            if($myitemclasses[$x]==0){
                 $work_item = WorkOrderItem::findOrFail($myitems_id[$x]);
+                $work_item->delete();
+            }else{
+                if ($myitems_id[$x]==0){
+                    $work_item = new WorkOrderItem;
+                }else{
+                    $work_item = WorkOrderItem::findOrFail($myitems_id[$x]);
+                }
                 $work_item->w_id = $workorders->id;
                 $work_item->wi_class = $myitemclasses[$x];
                 $work_item->wi = $myitems[$x];
                 $work_item->num_before = $munums[$x];
                 $work_item->save();
             }
+
         }
         return redirect("/workorders");
     }
