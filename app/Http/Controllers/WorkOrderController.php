@@ -10,6 +10,7 @@ use App\Models\WorkOrdersDetail;
 use App\Models\User;
 use App\Models\WorkOrderWorker;
 use Illuminate\Http\Request;
+use function MongoDB\BSON\toJSON;
 
 class WorkOrderController extends Controller
 {
@@ -93,21 +94,19 @@ class WorkOrderController extends Controller
         $workorders->start_time = request("starttime");
         $workorders->is_finish = request("is_finish");
         $workorders->save();
+        $ison_work = request("ison_work");
         $work_workers_id = request("myworker_id");
         $work_workers = request("myworker");
         for($x = 0 ; $x < count($work_workers_id); $x++){
-            $worker = $work_workers[$x];
             if($work_workers_id[$x]==0){
                 $work_worker = new WorkOrderWorker;
-                $work_worker->w_id = $workorders->id;
-                $work_worker->worker_id = $worker;
-                $work_worker->save();
             }else{
                 $work_worker = WorkOrderWorker::findOrFail($work_workers_id[$x]);
-                $work_worker->w_id = $workorders->id;
-                $work_worker->worker_id = $worker;
-                $work_worker->save();
             }
+            $work_worker->w_id = $workorders->id;
+            $work_worker->worker_id = $work_workers[$x];
+            $work_worker->on_work = $ison_work[$x];
+            $work_worker->save();
         }
         $myitems_id = request("myitem_id");
         $myitemclasses = request("myitemclass");
@@ -162,6 +161,14 @@ class WorkOrderController extends Controller
 
 
         return redirect('/workorders');
+    }
+    public function del_item($id){
+        $workitems = WorkOrderItem::findOrFail($id);
+        $workitems->delete();
+    }
+    public function del_worker($id){
+        $workworkers = WorkOrderWorker::findOrFail($id);
+        $workworkers->delete();
     }
     public function worker_page(){
 

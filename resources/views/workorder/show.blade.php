@@ -78,7 +78,7 @@
                                         <div id="workers">
                                             <input type="text" hidden id="myworker_id" name="myworker_id[]" value="{{$w["id"]}}">
                                             <div class="row">
-                                                <div class="col-md-10">
+                                                <div class="col-md-8">
                                                     <select class="form-control" id="worker_id" name="myworker[]">
 
                                                     @foreach($users as $user)
@@ -86,9 +86,12 @@
                                                     @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-md-2">
-                                                <input class="form-check-input" type="checkbox" value="" id="ison_work">
-                                                    </div>
+                                                <div class="col-md-4">
+                                                    <select class="form-control" name="ison_work[]">
+                                                    <option  @if ($w["on_work"]==1) selected @endif value="1">是</option>
+                                                    <option  @if ($w["on_work"]==0) selected @endif value="0">否</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
